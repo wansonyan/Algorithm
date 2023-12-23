@@ -4,37 +4,8 @@ version:
 Author: vansson
 Date: 2023-12-15 16:44:44
 LastEditors: vansson
-LastEditTime: 2023-12-15 16:51:05
+LastEditTime: 2023-12-23 11:11:45
 '''
-# import PyPDF3  
-  
-# # 打开第一个PDF文件  
-# pdf1 = open('/home/vansson/Downloads/1.pdf', 'rb')  
-# pdf_reader1 = PyPDF.PdfFileReader(pdf1)  
-  
-# # 打开第二个PDF文件  
-# pdf2 = open('/home/vansson/Downloads/22.pdf', 'rb')  
-# pdf_reader2 = PyPDF.PdfFileReader(pdf2)  
-  
-# # 创建一个新的PDF写入对象  
-# pdf_writer = PyPDF.PdfFileWriter()  
-  
-# # 合并第一个PDF文件的所有页面到新的PDF  
-# for page in range(pdf_reader1.getNumPages()):  
-#     pdf_writer.addPage(pdf_reader1.getPage(page))  
-  
-# # 合并第二个PDF文件的所有页面到新的PDF  
-# for page in range(pdf_reader2.getNumPages()):  
-#     pdf_writer.addPage(pdf_reader2.getPage(page))  
-  
-# # 将合并后的PDF写入到一个新的文件中  
-# with open('merged.pdf', 'wb') as output_pdf:  
-#     pdf_writer.write(output_pdf)  
-  
-# # 关闭所有打开的PDF文件和写入对象  
-# pdf1.close()  
-# pdf2.close()  
-# pdf_writer.close()
 import fitz  # PyMuPDF
 
 def merge_pdfs(pdf1_path, pdf2_path, output_path):
