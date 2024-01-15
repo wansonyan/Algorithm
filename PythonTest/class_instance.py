@@ -4,7 +4,7 @@ version:
 Author: vansson
 Date: 2023-12-27 16:56:18
 LastEditors: vansson
-LastEditTime: 2023-12-27 17:08:17
+LastEditTime: 2024-01-11 16:48:33
 '''
 import os
 from xml.etree import ElementTree as ET
@@ -22,7 +22,8 @@ def calculate_instance_area(bbox):
 def count_xml_categories_by_area(folder_path, area_ranges):
     categories = {}
     area_counts = {area_range: 0 for area_range in area_ranges}
-    total_instances = 0
+    total_instances = 0 # 实例总数
+    total_count = 0 # 统计不同尺度下的实例总数
 
     # 遍历文件夹中的每个XML文件
     for filename in os.listdir(folder_path):
@@ -38,7 +39,7 @@ def count_xml_categories_by_area(folder_path, area_ranges):
 
                 # 计算实例的像素面积
                 area = calculate_instance_area(bbox)
-
+                
                 # 统计类别及其数量
                 if category in categories:
                     categories[category] += 1
@@ -51,15 +52,17 @@ def count_xml_categories_by_area(folder_path, area_ranges):
                 for area_range in area_ranges:
                     if area > area_range[0] and area <= area_range[1]:
                         area_counts[area_range] += 1
+                        total_count += 1
                         break
 
-    return categories, area_counts, total_instances
+    return categories, area_counts, total_instances, total_count
 
-folder_path = r'/media/vansson/etc/downloads/GDUT-HWD/Annotations'
-area_ranges = [(0, 25**2), (25**2, 46**2), (46**2, 67**2), (67**2, 87**2), (87**2, 108**2), (108**2, 129**2),
-               (129**2, 150**2), (150**2, 171**2), (171**2,192**2), (192**2, 212**2), (212**2,233**2),
-               (233**2, 254**2), (254**2, 1000000000000)]  # 设置不同像素面积范围
-categories, area_counts ,total_instances= count_xml_categories_by_area(folder_path, area_ranges)
+folder_path = r'/media/vansson/etc/downloads/helmet_dataset/Hardhat/Train/Annotation'
+area_ranges = [(0, 64**2), (64**2, 128**2), (128**2, 192**2), (192**2, 256**2), (256**2, 320**2), 
+               (320**2, 384**2), (384**2, 448**2), (448**2, 512**2), (512**2,576**2), (576**2, 640**2), 
+               (640**2,704**2), (704**2, 768**2), (768**2, 832**2), (832**2, 896**2), (896**2, 960**2), 
+               (960**2, 1024**2), (1024**2, 1000000000000000)]  # 设置不同像素面积范围
+categories, area_counts ,total_instances, total_count= count_xml_categories_by_area(folder_path, area_ranges)
 
 # 打印类别及其数量
 for category, count in categories.items():
@@ -68,5 +71,9 @@ for category, count in categories.items():
 # 打印不同像素面积范围下的数量
 for area_range, count in area_counts.items():
     print(f'像素面积范围: {area_range}, 数量: {count}')
-    
+
+# 打印实例总数   
 print(f'实例总数：{total_instances}')
+
+# 打印统计不同尺度下的实例总数   
+print(f'实例总数：{total_count}')
